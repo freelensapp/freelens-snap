@@ -1,0 +1,67 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - "**"
+    paths-ignore:
+      - .editorconfig
+      - .gitignore
+      - .markdownlint.yaml
+      - .trunk/**
+      - LICENSE
+      - README.md
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  kubernetes_version: 1.32.0 # datasource=github-releases depName=kubernetes/kubernetes
+
+jobs:
+  test:
+    name: Test
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch Git tags
+        run: git fetch --force --tags
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: 2.5.0 # datasource=github-releases depName=goreleaser/goreleaser
+          args: build --clean --snapshot --single-target --output freelens-k8s-proxy
+
+      - name: Install minikube (Linux)
+        if: runner.os == 'Linux'
+        uses: medyagh/setup-minikube@master
+        with:
+          kubernetes-version: v${{ env.kubernetes_version }}
+
+      - name: Run binary in the background
+        run: |
+          ./freelens-k8s-proxy > freelens-k8s-proxy.log &
+          echo $! > freelens-k8s-proxy.pid
+          sleep 5
+          cat freelens-k8s-proxy.log
+
+      - name: Test the output
+        run: |
+          url=http://$(grep ^starting freelens-k8s-proxy.log | sed 's/.* //')/version
+          curl -fsS $url | jq -ce . | grep platform

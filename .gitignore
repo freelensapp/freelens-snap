@@ -1,0 +1,10 @@
+?.*
+*~
+*.bak
+*.exe
+*.log
+*.snap
+tmp/
+.DS_Store
+.idea
+.vscode
