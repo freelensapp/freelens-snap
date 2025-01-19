@@ -146,6 +146,7 @@ apps:
       - network
       - opengl
       - shmem
+      - shutdown
       - sound-themes
       - wayland
       - x11
