@@ -1,5 +1,5 @@
 name: freelens
-version: 0.1.1 # datasource=github-releases depName=freelensapp/freelens
+version: 0.1.2 # datasource=github-releases depName=freelensapp/freelens
 title: Freelens
 summary: Freelens
 description: Freelens - FOSS IDE for Kubernetes
@@ -19,12 +19,11 @@ architectures:
 parts:
   freelens:
     plugin: dump
-    source:
-      - to amd64: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
-      - to arm64: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-arm64.deb
+    source: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$SNAPCRAFT_ARCH_BUILD_FOR.deb
     source-type: deb
     stage-packages:
       - ca-certificates
+      - gsettings-desktop-schemas
       - libasound2
       - libatk-bridge2.0-0
       - libatk1.0-0
@@ -34,18 +33,22 @@ parts:
       - libcurl3-gnutls
       - libcurl3-nss
       - libcurl4
-      - libegl1
       - libdrm2
+      - libegl1
       - libgbm1
+      - libgdk-pixbuf2.0-0
       - libgl1
       - libgles2
       - libglib2.0-0
+      - libglib2.0-bin
       - libgtk-3-0
       - libibus-1.0-5
+      - libnotify4
       - libnss3
       - libpango-1.0-0
       - libsecret-1-0
       - libtiff5
+      - libuuid1
       - libwayland-egl1
       - libxcomposite1
       - libxdamage1
@@ -54,11 +57,14 @@ parts:
       - libxkbfile1
       - libxrandr2
       - libxss1
+      - libxtst6
       - locales-all
       - packagekit-gtk3-module
       - patchelf
       - xdg-utils
       - xkb-data
+    stage-snaps:
+      - aws-cli/v2/stable
     prime:
       - -opt/Freelens/chrome-sandbox
       - -usr/share/doc
@@ -82,10 +88,6 @@ parts:
     build-snaps:
       - core20
     override-prime: |
-      set -eux
-      for snap in core20; do
-        cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
-      done
       patchelf --print-rpath $SNAPCRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
 
 plugs:
@@ -118,24 +120,36 @@ plugs:
     default-provider: gtk-common-themes
     interface: content
     target: $SNAP/data-dir/sounds
+  shmem:
+    interface: shared-memory
+    private: true
 
 apps:
   freelens:
     common-id: app.freelens.Freelens
     command: freelens-launch
-    desktop: usr/share/applications/freelens.desktop
+    desktop: freelens.desktop
+    extensions:
+      - gnome-3-38
     plugs:
       - browser-support
+      - desktop
+      - desktop-legacy
       - dot-freelens
       - dot-kube
       - etc-vulkan
-      - network
-      - network-manager
-      - network-manager-observe
-      - process-control
-      - desktop
-      - desktop-legacy
+      - gnome-3-38-2004
+      - gtk-3-themes
+      - icon-themes
       - gsettings
+      - home
+      - mount-observe
+      - network
       - opengl
+      - process-control
+      - removable-media
+      - shmem
+      - sound-themes
+      - udisks2
       - wayland
       - x11

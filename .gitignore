@@ -1,6 +1,7 @@
 ?.*
 *~
 *.bak
+*.deb
 *.exe
 *.log
 *.snap
