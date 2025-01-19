@@ -7,11 +7,11 @@ export NOTIFY_IGNORE_PORTAL=1
 REALHOME=$(getent passwd "$UID" | cut -d ':' -f 6 || true)
 export REALHOME
 
-if [[ ! -e $HOME/.freelens ]]; then
+if [[ ! -e $HOME/.freelens && ! -L $HOME/.freelens ]]; then
   ln -s "$REALHOME/.freelens" "$HOME/"
 fi
 
-if [[ ! -e $HOME/.kube ]]; then
+if [[ ! -e $HOME/.kube && ! -L $HOME/.kube ]]; then
   ln -s "$REALHOME/.kube" "$HOME/"
 fi
 
@@ -35,9 +35,9 @@ prepend_dir XDG_CONFIG_DIRS "$SNAP/etc/xdg"
 prepend_dir XDG_DATA_DIRS "$SNAP/usr/share"
 prepend_dir XDG_DATA_DIRS "$SNAP/share"
 prepend_dir XDG_DATA_DIRS "$SNAP/data-dir"
-prepend_dir XDG_DATA_DIRS "$SNAP_USER_DATA"
+prepend_dir XDG_DATA_DIRS "${SNAP_USER_DATA-}"
 
-export XDG_DATA_HOME="$SNAP_USER_DATA/.local/share"
+export XDG_DATA_HOME="${SNAP_USER_DATA-}/.local/share"
 mkdir -p "$XDG_DATA_HOME"
 
 prepend_dir XDG_DATA_DIRS "$XDG_DATA_HOME"
