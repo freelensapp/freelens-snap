@@ -19,7 +19,7 @@ runtimes:
 lint:
   enabled:
     - actionlint@1.7.6
-    - renovate@39.107.2
+    - renovate@39.109.0
     - git-diff-check
     - markdownlint@0.43.0
     - oxipng@9.1.3
