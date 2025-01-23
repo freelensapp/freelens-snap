@@ -21,6 +21,8 @@ parts:
     plugin: dump
     source: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$SNAPCRAFT_ARCH_BUILD_FOR.deb
     source-type: deb
+    parse-info:
+      - usr/share/metainfo/app.freelens.Freelens.metainfo.xml
     stage-packages:
       - ca-certificates
       - gsettings-desktop-schemas
