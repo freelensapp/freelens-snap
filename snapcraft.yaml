@@ -1,5 +1,5 @@
 name: freelens
-version: 0.1.2 # datasource=github-releases depName=freelensapp/freelens
+version: 0.1.2-nightly-2025-01-23
 title: Freelens
 summary: Freelens
 description: Freelens - FOSS IDE for Kubernetes
@@ -19,7 +19,7 @@ architectures:
 parts:
   freelens:
     plugin: dump
-    source: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$SNAPCRAFT_ARCH_BUILD_FOR.deb
+    source: https://github.com/freelensapp/freelens-nightly-builds/releases/download/nightly-2025-01-23/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$SNAPCRAFT_ARCH_BUILD_FOR.deb
     source-type: deb
     parse-info:
       - usr/share/metainfo/app.freelens.Freelens.metainfo.xml
