@@ -1,5 +1,5 @@
 name: freelens
-version: 0.1.3 # datasource=github-releases depName=freelensapp/freelens
+version: 0.1.4 # datasource=github-releases depName=freelensapp/freelens
 title: Freelens
 summary: Free IDE for Kubernetes
 description: |
