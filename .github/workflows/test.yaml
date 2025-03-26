@@ -33,6 +33,12 @@ jobs:
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v3
 
+      - name: Install LXD
+        run: sudo snap install lxd
+
+      - name: Init LXD
+        run: sudo lxd init --auto
+
       - name: Build snap
         run: snapcraft --use-lxd
 
