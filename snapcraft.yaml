@@ -14,11 +14,11 @@ description: |
   - Visualization of workloads, networking, storage, and configurations
   - Extension support to add custom functionality
 
-  Freelens is maintained by the community.</p>
+  Freelens is maintained by the community.
 
 icon: icon.png
 
-base: core20
+base: core22
 
 grade: stable
 confinement: classic
@@ -87,7 +87,7 @@ parts:
       - -usr/share/man
     override-build: |
       snapcraftctl build
-      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core20/current/lib/x86_64-linux-gnu' $SNAPCRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core22/current/lib/x86_64-linux-gnu' $SNAPCRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
   gui:
     after:
       - freelens
@@ -99,7 +99,7 @@ parts:
       - gui
     plugin: nil
     build-snaps:
-      - core20
+      - core22
     override-prime: |
       patchelf --print-rpath $SNAPCRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
 

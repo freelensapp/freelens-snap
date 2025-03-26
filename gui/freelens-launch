@@ -42,4 +42,4 @@ mkdir -p "$XDG_DATA_HOME"
 
 prepend_dir XDG_DATA_DIRS "$XDG_DATA_HOME"
 
-exec "$SNAP/opt/Freelens/freelens" --ozone-platform-hint=auto --disable-seccomp-filter-sandbox "$@"
+exec "$SNAP/opt/Freelens/freelens" --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer --enable-features=WaylandWindowDecorations --disable-gpu-compositing --disable-seccomp-filter-sandbox "$@"
