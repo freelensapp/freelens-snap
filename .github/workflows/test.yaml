@@ -30,17 +30,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v3
-
-      - name: Install LXD
-        run: sudo snap install lxd
-
-      - name: Init LXD
-        run: sudo lxd init --auto
-
       - name: Build snap
-        run: snapcraft --use-lxd
+        id: snapcraft
+        uses: snapcore/action-build@v1
 
       - name: Install snap
-        run: sudo snap install ./*.snap --dangerous --classic
+        run: sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
