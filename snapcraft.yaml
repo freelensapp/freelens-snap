@@ -78,8 +78,6 @@ parts:
       - patchelf
       - xdg-utils
       - xkb-data
-    stage-snaps:
-      - aws-cli/v2/stable
     prime:
       - -opt/Freelens/chrome-sandbox
       - -usr/share/doc
