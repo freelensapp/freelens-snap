@@ -24,15 +24,15 @@ grade: stable
 confinement: classic
 
 architectures:
-  - build-on: amd64
-    run-on: amd64
-  - build-on: arm64
-    run-on: arm64
+  - build-on:
+      - amd64
+  - build-on:
+      - arm64
 
 parts:
   freelens:
     plugin: dump
-    source: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$SNAPCRAFT_ARCH_BUILD_FOR.deb
+    source: https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$CRAFT_ARCH_BUILD_FOR.deb
     source-type: deb
     parse-info:
       - usr/share/metainfo/app.freelens.Freelens.metainfo.xml
@@ -86,8 +86,8 @@ parts:
       - -usr/share/lintian
       - -usr/share/man
     override-build: |
-      snapcraftctl build
-      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core22/current/lib/x86_64-linux-gnu' $SNAPCRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+      craftctl default
+      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core22/current/lib/x86_64-linux-gnu' $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
   gui:
     after:
       - freelens
@@ -101,7 +101,7 @@ parts:
     build-snaps:
       - core22
     override-prime: |
-      patchelf --print-rpath $SNAPCRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
+      patchelf --print-rpath $CRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
 
 apps:
   freelens:
