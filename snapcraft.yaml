@@ -1,4 +1,4 @@
-name: freelens-previous-name-was-revoked
+name: freelens
 version: 1.1.2 # datasource=github-releases depName=freelensapp/freelens
 title: Freelens
 summary: Free IDE for Kubernetes
