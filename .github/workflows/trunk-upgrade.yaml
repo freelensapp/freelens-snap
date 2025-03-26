@@ -10,7 +10,7 @@ on:
     paths:
       - .trunk/**
   schedule:
-    - cron: 10 5 * * *
+    - cron: 38 4 * * *
   workflow_dispatch: {}
 
 permissions:
@@ -26,7 +26,7 @@ jobs:
 
     if: >-
       github.event_name != 'issue_comment' ||
-      contains(github.event.comment.body, '/rerun')
+      (startsWith(github.event.issue.title, 'Automated trunk upgrade') && contains(github.event.comment.body, '/rerun'))
 
     steps:
       - name: Checkout
