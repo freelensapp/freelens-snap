@@ -36,3 +36,6 @@ jobs:
 
       - name: Install snap
         run: sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
+
+      - name: Check snap
+        run: snap info --verbose freelens
