@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - automated/*
+      - renovate/*
+    paths-ignore:
+      - .editorconfig
+      - .gitignore
+      - .markdownlint.yaml
+      - .trunk/**
+      - LICENSE
+      - README.md
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v3
+
+      - name: Build snap
+        run: snapcraft --use-lxd
+
+      - name: Install snap
+        run: sudo snap install ./*.snap --dangerous --classic
