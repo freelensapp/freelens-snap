@@ -19,7 +19,6 @@ runtimes:
 lint:
   enabled:
     - actionlint@1.7.7
-    - renovate@39.213.0
     - git-diff-check
     - markdownlint@0.44.0
     - oxipng@9.1.4
@@ -30,6 +29,7 @@ lint:
     - yamllint@1.37.0
   disabled:
     - checkov
+    - renovate
 actions:
   enabled:
     - trunk-announce
