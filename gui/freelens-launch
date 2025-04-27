@@ -4,11 +4,23 @@ SNAP=${SNAP//\/var\/lib\/snapd/}
 
 export NOTIFY_IGNORE_PORTAL=1
 
+## https://github.com/freelensapp/freelens-snap/issues/18
+
+if [[ $HOME/.freelens == "$(readlink "$HOME/.freelens" || true)" ]]; then
+  rm -f "$HOME/.freelens"
+fi
+
+if [[ $HOME/.kube == "$(readlink "$HOME/.kube" || true)" ]]; then
+  rm -f "$HOME/.kube"
+fi
+
 REALHOME=$(getent passwd "$UID" | cut -d ':' -f 6 || true)
 export REALHOME
 
-if [[ ! -e $HOME/.freelens && ! -L $HOME/.freelens ]]; then
-  ln -s "$REALHOME/.freelens" "$HOME/"
+if [[ $REALHOME != "$HOME" ]]; then
+  if [[ ! -e $HOME/.freelens && ! -L $HOME/.freelens ]]; then
+    ln -s "$REALHOME/.freelens" "$HOME/"
+  fi
 fi
 
 if [[ ! -e $HOME/.kube && ! -L $HOME/.kube ]]; then
