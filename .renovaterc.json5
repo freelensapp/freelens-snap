@@ -1,27 +1,26 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":semanticCommitsDisabled"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':semanticCommitsDisabled',
   ],
-  "addLabels": [
-    "renovate"
+  addLabels: [
+    'renovate',
   ],
-  "customManagers": [
-    // renovate hints after comment
+  customManagers: [
     {
-      "customType": "regex",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$",
-        "^\\.trunk/trunk.yaml",
-        "^\\.tool-versions$",
-        "^snapcraft.yaml$"
+      customType: 'regex',
+      extractVersionTemplate: '^v?(?<version>.*)$',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+        '/^\\.trunk/trunk.yaml/',
+        '/^\\.tool-versions$/',
+        '/^snapcraft.yaml$/',
       ],
-      "matchStrings": [
-        "(\\s+|.*?@)(?<currentValue>\\S+)\\s*#\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\s*\\n"
+      matchStrings: [
+        '(\\s+|.*?@)(?<currentValue>\\S+)\\s*#\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\s*\\n',
       ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    }
-  ]
+      versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
+    },
+  ],
 }
