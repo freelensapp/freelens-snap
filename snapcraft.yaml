@@ -85,9 +85,8 @@ parts:
       - -usr/share/icons
       - -usr/share/lintian
       - -usr/share/man
-    override-build: |
-      craftctl default
-      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core22/current/lib/x86_64-linux-gnu' $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+    build-attributes:
+      - enable-patchelf
   gui:
     after:
       - freelens
@@ -100,8 +99,6 @@ parts:
     plugin: nil
     build-snaps:
       - core22
-    override-prime: |
-      patchelf --print-rpath $CRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
 
 apps:
   freelens:
