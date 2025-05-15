@@ -21,10 +21,9 @@ if [[ $REALHOME != "$HOME" ]]; then
   if [[ ! -e $HOME/.freelens && ! -L $HOME/.freelens ]]; then
     ln -s "$REALHOME/.freelens" "$HOME/"
   fi
-fi
-
-if [[ ! -e $HOME/.kube && ! -L $HOME/.kube ]]; then
-  ln -s "$REALHOME/.kube" "$HOME/"
+  if [[ ! -e $HOME/.kube && ! -L $HOME/.kube ]]; then
+    ln -s "$REALHOME/.kube" "$HOME/"
+  fi
 fi
 
 export TMPDIR=${XDG_RUNTIME_DIR:-$HOME/.freelens/tmp}
