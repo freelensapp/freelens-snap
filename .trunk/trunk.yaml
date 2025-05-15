@@ -25,7 +25,7 @@ lint:
     - prettier@3.5.3
     - shellcheck@0.10.0
     - shfmt@3.6.0
-    - trufflehog@3.88.28
+    - trufflehog@3.88.29
     - yamllint@1.37.1
   disabled:
     - checkov
