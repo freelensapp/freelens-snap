@@ -20,12 +20,12 @@ lint:
   enabled:
     - actionlint@1.7.7
     - git-diff-check
-    - markdownlint@0.44.0
+    - markdownlint@0.45.0
     - oxipng@9.1.5
     - prettier@3.5.3
     - shellcheck@0.10.0
     - shfmt@3.6.0
-    - trufflehog@3.88.29
+    - trufflehog@3.88.33
     - yamllint@1.37.1
   disabled:
     - checkov
