@@ -24,7 +24,7 @@ lint:
     - oxipng@9.1.5
     - shellcheck@0.10.0
     - shfmt@3.6.0
-    - trufflehog@3.89.0
+    - trufflehog@3.89.2
     - yamllint@1.37.1
     - yamlfmt@0.17.2
   disabled:
