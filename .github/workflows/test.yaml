@@ -5,6 +5,7 @@ on:
     branches-ignore:
       - automated/*
       - renovate/*
+      - main
     paths-ignore:
       - .editorconfig
       - .gitignore

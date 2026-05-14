@@ -28,6 +28,7 @@ jobs:
           - runs-on: ubuntu-24.04-arm
 
     runs-on: ${{ matrix.runs-on }}
+    environment: publishing
 
     steps:
       - name: Checkout
@@ -56,6 +57,7 @@ jobs:
     needs: publish
 
     runs-on: ubuntu-24.04
+    environment: publishing
 
     steps:
       - name: Install snapcraft
