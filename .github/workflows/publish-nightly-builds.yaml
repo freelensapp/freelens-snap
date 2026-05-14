@@ -41,6 +41,8 @@ jobs:
           latest=$(gh release list -R freelensapp/freelens-nightly-builds --limit 1 --json tagName --jq '.[0].tagName | sub("^v"; "")')
           echo "Latest nightly version: $latest"
           echo "latest=$latest" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Set version
         run: |
