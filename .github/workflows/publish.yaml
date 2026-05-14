@@ -1,10 +1,9 @@
-name: Test
+name: Publish
 
 on:
   push:
-    branches-ignore:
-      - automated/*
-      - renovate/*
+    branches:
+      - main
     paths-ignore:
       - .editorconfig
       - .gitignore
@@ -12,17 +11,14 @@ on:
       - .trunk/**
       - LICENSE
       - README.md
-  pull_request:
-    branches:
-      - main
   workflow_dispatch: {}
 
 permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test
+  publish:
+    name: Publish
 
     strategy:
       fail-fast: false
@@ -46,3 +42,26 @@ jobs:
 
       - name: Check snap
         run: snap info --verbose freelens
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: edge
+
+  promote:
+    name: Promote edge to stable
+
+    needs: publish
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Promote edge to stable
+        run: snapcraft promote freelens --from-channel edge --to-channel stable --yes
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
