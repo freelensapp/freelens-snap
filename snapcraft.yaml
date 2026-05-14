@@ -87,7 +87,12 @@ parts:
       - -usr/share/man
     override-build: |
       craftctl default
-      patchelf --force-rpath --set-rpath '$ORIGIN/../../lib/x86_64-linux-gnu:$ORIGIN:/snap/core22/current/lib/x86_64-linux-gnu' $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+      if [ "$CRAFT_ARCH_BUILD_FOR" = "arm64" ]; then
+        export CRAFT_ARCH_LIB=lib/aarch64-linux-gnu
+      else
+        export CRAFT_ARCH_LIB=lib/x86_64-linux-gnu
+      fi
+      patchelf --force-rpath --set-rpath "$CRAFT_ARCH_LIB:$ORIGIN:/snap/core22/current/$CRAFT_ARCH_LIB" $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
   gui:
     after:
       - freelens
