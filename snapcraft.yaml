@@ -92,7 +92,7 @@ parts:
       else
         export CRAFT_ARCH_LIB=lib/x86_64-linux-gnu
       fi
-      patchelf --force-rpath --set-rpath "$CRAFT_ARCH_LIB:$ORIGIN:/snap/core22/current/$CRAFT_ARCH_LIB" $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+      patchelf --force-rpath --set-rpath "\$ORIGIN/../../$CRAFT_ARCH_LIB:\$ORIGIN:/snap/core22/current/$CRAFT_ARCH_LIB" $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
   gui:
     after:
       - freelens
