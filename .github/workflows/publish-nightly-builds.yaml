@@ -1,0 +1,65 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - nightly-builds
+    paths-ignore:
+      - .editorconfig
+      - .gitignore
+      - .markdownlint.yaml
+      - .trunk/**
+      - LICENSE
+      - README.md
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runs-on: ubuntu-24.04
+          - runs-on: ubuntu-24.04-arm
+
+    runs-on: ${{ matrix.runs-on }}
+    environment: publishing
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: nightly-builds
+
+      - name: Check latest nightly version
+        run: |
+          latest=$(gh release list -R freelensapp/freelens-nightly-builds --limit 1 --json tagName --jq '.[0].tagName | sub("^v"; "")')
+          echo "Latest nightly version: $latest"
+          echo "latest=$latest" >> $GITHUB_ENV
+
+      - name: Set version
+        run: |
+          yq -i '.version = env(latest)' snapcraft.yaml
+          yq -i '.parts.freelens.source = "https://github.com/freelensapp/freelens-nightly-builds/releases/download/v\$SNAPCRAFT_PROJECT_VERSION/Freelens-\$SNAPCRAFT_PROJECT_VERSION-linux-\$CRAFT_ARCH_BUILD_FOR.deb"' snapcraft.yaml
+
+      - name: Build snap
+        id: build
+        uses: snapcore/action-build@v1
+
+      - name: Install snap
+        run: sudo snap install --dangerous --classic ${{ steps.build.outputs.snap }}
+
+      - name: Check snap
+        run: snap info --verbose freelens
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: edge
