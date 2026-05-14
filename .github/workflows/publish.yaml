@@ -49,10 +49,10 @@ jobs:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
         with:
           snap: ${{ steps.build.outputs.snap }}
-          release: edge
+          release: candidate
 
   promote:
-    name: Promote edge to stable
+    name: Promote candidate to stable
 
     needs: publish
 
@@ -63,7 +63,7 @@ jobs:
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
 
-      - name: Promote edge to stable
-        run: snapcraft promote freelens --from-channel edge --to-channel stable --yes
+      - name: Promote candidate to stable
+        run: snapcraft promote freelens --from-channel candidate --to-channel stable --yes
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
