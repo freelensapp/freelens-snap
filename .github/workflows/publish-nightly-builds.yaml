@@ -47,7 +47,7 @@ jobs:
       - name: Set version
         run: |
           yq -i '.version = env(latest)' snapcraft.yaml
-          yq -i '.parts.freelens.source = "https://github.com/freelensapp/freelens-nightly-builds/releases/download/v\$SNAPCRAFT_PROJECT_VERSION/Freelens-\$SNAPCRAFT_PROJECT_VERSION-linux-\$CRAFT_ARCH_BUILD_FOR.deb"' snapcraft.yaml
+          yq -i '.parts.freelens.source = "https://github.com/freelensapp/freelens-nightly-builds/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$CRAFT_ARCH_BUILD_FOR.deb"' snapcraft.yaml
 
       - name: Build snap
         id: build
