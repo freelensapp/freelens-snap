@@ -46,6 +46,7 @@ jobs:
 
       - uses: snapcore/action-publish@v1
         env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
         with:
           snap: ${{ steps.build.outputs.snap }}
