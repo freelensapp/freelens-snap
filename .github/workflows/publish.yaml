@@ -11,6 +11,8 @@ on:
       - .trunk/**
       - LICENSE
       - README.md
+  schedule:
+    - cron: 0 4 * * 1
   workflow_dispatch: {}
 
 permissions:
@@ -46,6 +48,7 @@ jobs:
 
       - uses: snapcore/action-publish@v1
         env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
         with:
           snap: ${{ steps.build.outputs.snap }}

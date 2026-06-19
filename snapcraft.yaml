@@ -1,5 +1,5 @@
 name: freelens
-version: 1.9.0 # datasource=github-releases depName=freelensapp/freelens
+version: 1.10.0 # datasource=github-releases depName=freelensapp/freelens
 title: Freelens
 summary: Free IDE for Kubernetes
 description: |
@@ -17,17 +17,21 @@ description: |
   Freelens is maintained by the community.
 
 icon: icon.png
+contact: mailto:freelens@freelens.app
+license: MIT
+donation: https://github.com/sponsors/freelensapp
+issues: https://github.com/freelensapp/freelens/issues
+source-code: https://github.com/freelensapp/freelens
+website: https://freelens.app/
 
-base: core22
+base: core24
 
 grade: stable
 confinement: classic
 
-architectures:
-  - build-on:
-      - amd64
-  - build-on:
-      - arm64
+platforms:
+  amd64: null
+  arm64: null
 
 parts:
   freelens:
@@ -45,8 +49,6 @@ parts:
       - libatspi2.0-0
       - libcairo2
       - libcanberra-gtk3-module
-      - libcurl3-gnutls
-      - libcurl3-nss
       - libcurl4
       - libdrm2
       - libegl1
@@ -62,7 +64,7 @@ parts:
       - libnss3
       - libpango-1.0-0
       - libsecret-1-0
-      - libtiff5
+      - libtiff6
       - libuuid1
       - libwayland-egl1
       - libxcomposite1
@@ -92,7 +94,7 @@ parts:
       else
         export CRAFT_ARCH_LIB=lib/x86_64-linux-gnu
       fi
-      patchelf --force-rpath --set-rpath "\$ORIGIN/../../$CRAFT_ARCH_LIB:\$ORIGIN:/snap/core22/current/$CRAFT_ARCH_LIB" $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
+      patchelf --force-rpath --set-rpath "\$ORIGIN/../../$CRAFT_ARCH_LIB:\$ORIGIN:/snap/core24/current/$CRAFT_ARCH_LIB" $CRAFT_PART_INSTALL/opt/Freelens/chrome_crashpad_handler
   gui:
     after:
       - freelens
@@ -104,7 +106,7 @@ parts:
       - gui
     plugin: nil
     build-snaps:
-      - core22
+      - core24
     override-prime: |
       patchelf --print-rpath $CRAFT_PRIME/opt/Freelens/chrome_crashpad_handler
 
