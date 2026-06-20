@@ -86,7 +86,7 @@ Edit the `version` field in `snapcraft.yaml`. The version is consumed by
 Snapcraft as `$SNAPCRAFT_PROJECT_VERSION` and used to construct the `.deb`
 download URL:
 
-```
+```text
 https://github.com/freelensapp/freelens/releases/download/v$SNAPCRAFT_PROJECT_VERSION/Freelens-$SNAPCRAFT_PROJECT_VERSION-linux-$CRAFT_ARCH_BUILD_FOR.deb
 ```
 
