@@ -390,10 +390,18 @@ Do not expect `pnpm`, `node`, or `npx` to be usable for project scripts;
 there are none. The workspace is just `snapcraft.yaml`, `gui/`, and the
 Markdown docs.
 
-The snap itself cannot be built on the runner: `snapcraft` (and LXD) are
-not available in the Claude workflow, so a change to `snapcraft.yaml` can
-only be validated statically (see below) — the real build happens in
-`test.yaml` / `publish.yaml` once the change is pushed.
+What the runner does provide is a full snap build environment and trunk:
+
+- `trunk` and its managed linters (`actionlint`, `shellcheck`, `shfmt`,
+  `yamllint`, `yamlfmt`, `markdownlint`) are on `PATH`.
+- `snapd`, LXD (initialised) and `snapcraft` are installed, and
+  `SNAPCRAFT_BUILD_ENVIRONMENT=lxd` is exported — the same environment
+  `snapcore/action-build@v1` sets up for `test.yaml`, minus the build
+  itself.
+
+Both setup steps are `continue-on-error`, so they may have been skipped
+(they are Linux-only) or failed. Verify a tool exists before relying on it,
+and never report a check as passing when it did not run.
 
 For fork PRs, the `origin` remote points to the contributor's fork. An
 `upstream` remote is configured pointing to `freelensapp/freelens-snap`.
@@ -406,6 +414,9 @@ The following CLI tools are explicitly allowed in the workflow:
 - `git` (all subcommands) — for viewing changes, creating branches,
   committing, and pushing
 - `gh` (all subcommands) — for managing pull requests
+- `trunk` — for linting and formatting every file type
+- `snapcraft`, `snap`, `sudo`, `bash` — for building, installing, and
+  smoke-testing the snap
 - `npx`, `node`, `pnpm` (all subcommands) — allowed, but there is no
   Node.js project here; useful only for running an ad-hoc tool via `npx`
 - `yq`, `jq` — for YAML and JSON processing
@@ -417,18 +428,30 @@ The following CLI tools are explicitly allowed in the workflow:
 - `mkdir`, `touch`, `cp`, `mv`, `rm` — for file and directory operations
 - `tee`, `echo` — for pipeline debugging and scripting
 
-Before committing any changes, validate as far as the runner allows:
+Before committing any changes, apply the same validation rules as human
+developers:
 
+- Run `trunk check` to validate all file types. It only inspects changed
+  files by default; use `trunk check --all` after a broad change.
 - Validate `snapcraft.yaml` syntax: `yq eval snapcraft.yaml > /dev/null`.
-- Match the existing formatting of the file you edit (Prettier-style
-  YAML/Markdown, `shfmt`-style shell) — `trunk` is not in the workflow's
-  allowed tools, so `trunk check` cannot be run there. `trunk-check.yaml`
-  runs it on the pushed branch, and its findings may need a follow-up
-  commit. Never report a check as passing when it was not run.
-- When editing `gui/freelens-launch`, re-read the whole script after the
-  change and reason through the paths described in "Modifying the Launch
-  Wrapper" — the script cannot be executed or syntax-checked on the
-  runner (`bash` is not an allowed tool either).
+- After editing `gui/freelens-launch`, syntax-check it with
+  `bash -n gui/freelens-launch`.
+- After a change to `snapcraft.yaml` or anything under `gui/`, build the
+  snap the way `test.yaml` does and smoke-test the result:
+
+  ```bash
+  sudo -u "$USER" -E snapcraft
+  sudo snap install --dangerous --classic ./freelens_*.snap
+  snap info --verbose freelens
+  ```
+
+  The `sudo -u "$USER" -E` re-exec is required: it picks up the `lxd`
+  group membership granted during setup, and `-E` keeps
+  `SNAPCRAFT_BUILD_ENVIRONMENT=lxd`. A build downloads the upstream `.deb`
+  and takes several minutes — run it in the background and poll rather
+  than blocking on it, and do not start one for a docs-only change.
+  `freelens` cannot actually be launched (no graphical session), so stop
+  at `snap info`.
 
 ## Getting Help
 
