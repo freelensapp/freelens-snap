@@ -384,10 +384,16 @@ rather than guessing.
 
 ### Development Environment
 
-The GitHub Actions runner has a full Node.js + pnpm environment available.
-Dependencies are already installed (`pnpm install` has been run). The
-build step is skipped to save CI resources, but you can run build commands
-when needed for advanced tasks (e.g. type-checking, running tests).
+This repository has no Node.js project — there is no `package.json`, no
+`pnpm-lock.yaml`, and no dependency install step in the Claude workflow.
+Do not expect `pnpm`, `node`, or `npx` to be usable for project scripts;
+there are none. The workspace is just `snapcraft.yaml`, `gui/`, and the
+Markdown docs.
+
+The snap itself cannot be built on the runner: `snapcraft` (and LXD) are
+not available in the Claude workflow, so a change to `snapcraft.yaml` can
+only be validated statically (see below) — the real build happens in
+`test.yaml` / `publish.yaml` once the change is pushed.
 
 For fork PRs, the `origin` remote points to the contributor's fork. An
 `upstream` remote is configured pointing to `freelensapp/freelens-snap`.
@@ -397,11 +403,11 @@ run automatically.
 
 The following CLI tools are explicitly allowed in the workflow:
 
-- `pnpm` (all subcommands) — for validation, formatting, and builds
 - `git` (all subcommands) — for viewing changes, creating branches,
   committing, and pushing
 - `gh` (all subcommands) — for managing pull requests
-- `npx`, `node` — for running Node.js tools and scripts inline
+- `npx`, `node`, `pnpm` (all subcommands) — allowed, but there is no
+  Node.js project here; useful only for running an ad-hoc tool via `npx`
 - `yq`, `jq` — for YAML and JSON processing
 - `grep`, `rg` (ripgrep), `find`, `xargs` — for searching and iterating
 - `sed`, `awk`, `cut`, `tr` — for text transformation
@@ -411,16 +417,18 @@ The following CLI tools are explicitly allowed in the workflow:
 - `mkdir`, `touch`, `cp`, `mv`, `rm` — for file and directory operations
 - `tee`, `echo` — for pipeline debugging and scripting
 
-Before committing any changes, apply the same validation rules as human
-developers:
+Before committing any changes, validate as far as the runner allows:
 
-- Run `pnpm trunk check` to validate all file types (or `trunk check` if
-  the trunk CLI is installed globally).
 - Validate `snapcraft.yaml` syntax: `yq eval snapcraft.yaml > /dev/null`.
-- If unit tests fail on snapshot mismatches after your changes (or you are
-  explicitly asked to update them), run `pnpm test:unit:updatesnapshot` to
-  regenerate snapshots, review the diff, then commit the updated `.snap`
-  files.
+- Match the existing formatting of the file you edit (Prettier-style
+  YAML/Markdown, `shfmt`-style shell) — `trunk` is not in the workflow's
+  allowed tools, so `trunk check` cannot be run there. `trunk-check.yaml`
+  runs it on the pushed branch, and its findings may need a follow-up
+  commit. Never report a check as passing when it was not run.
+- When editing `gui/freelens-launch`, re-read the whole script after the
+  change and reason through the paths described in "Modifying the Launch
+  Wrapper" — the script cannot be executed or syntax-checked on the
+  runner (`bash` is not an allowed tool either).
 
 ## Getting Help
 
