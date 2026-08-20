@@ -172,7 +172,7 @@ jobs:
       # `trunk check` before committing. Never fails the job — Claude should
       # still run and report that the check was unavailable.
       - name: Install trunk
-        uses: trunk-io/trunk-action/install@v1
+        uses: trunk-io/trunk-action/install@v2.0.0
         continue-on-error: true
 
       # Same build environment that snapcore/action-build@v1 sets up in
