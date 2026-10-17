@@ -9,7 +9,7 @@
 [![Snapcraft latest/stable](https://img.shields.io/snapcraft/v/freelens/latest/stable?label=latest%2Fstable)](https://snapcraft.io/freelens)
 [![Snapcraft latest/edge](https://img.shields.io/snapcraft/v/freelens/latest/edge?label=latest%2Fedge)](https://snapcraft.io/freelens)
 [![Publish](https://github.com/freelensapp/freelens-snap/actions/workflows/publish.yaml/badge.svg?branch=main)](https://github.com/freelensapp/freelens-snap/actions/workflows/publish.yaml)
-[![Publish Nightly Builds](https://github.com/freelensapp/freelens-snap/actions/workflows/publish-nightly-builds.yaml/badge.svg?branch=nightly-builds)](https://github.com/freelensapp/freelens-snap/actions/workflows/publish-nightly-builds.yaml)
+[![Publish Nightly Builds](https://github.com/freelensapp/freelens-snap/actions/workflows/publish-nightly-builds.yaml/badge.svg?branch=main)](https://github.com/freelensapp/freelens-snap/actions/workflows/publish-nightly-builds.yaml)
 [![Trunk Check](https://github.com/freelensapp/freelens/actions/workflows/trunk-check.yaml/badge.svg?branch=main)](https://github.com/freelensapp/freelens/actions/workflows/trunk-check.yaml)
 
 <!-- markdownlint-enable MD013 -->

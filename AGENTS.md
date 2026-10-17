@@ -24,7 +24,7 @@ releases — there is no compilation or source build step in this repo.
   - `publish.yaml` — Build and publish to the Snap Store on pushes to
     `main` and weekly schedule.
   - `publish-nightly-builds.yaml` — Build and publish nightly snap from
-    the `nightly-builds` branch.
+    `main` with the latest Freelens nightly build, on a daily schedule.
   - `claude.yaml` — On-demand Claude Code assistant triggered by
     `@claude` in PRs and issues.
   - `trunk-check.yaml` / `trunk-upgrade.yaml` — Linting and auto-upgrades
