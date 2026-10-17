@@ -7,6 +7,11 @@
   "addLabels": [
     "renovate"
   ],
+  // ubuntu runners must stay on the oldest supported version, which also
+  // matches the core24 base of the snap
+  "ignoreDeps": [
+    "ubuntu"
+  ],
   "customManagers": [
     // renovate hints after comment
     {
