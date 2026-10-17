@@ -411,9 +411,9 @@ What the runner does provide is a full snap build environment and trunk:
   `snapcore/action-build@v1` sets up for `test.yaml`, minus the build
   itself.
 
-Both setup steps are `continue-on-error`, so they may have been skipped
-(they are Linux-only) or failed. Verify a tool exists before relying on it,
-and never report a check as passing when it did not run.
+Both setup steps are `continue-on-error`, so they may have failed. Verify a
+tool exists before relying on it, and never report a check as passing when it
+did not run.
 
 The `origin` remote is always `freelensapp/freelens-snap`, for fork PRs too:
 their commits are checked out through the pull ref. A PR from a fork runs in
