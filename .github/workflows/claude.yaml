@@ -63,7 +63,7 @@ jobs:
         github.event.review.author_association ||
         github.event.issue.author_association)
 
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 2
 
     outputs:
@@ -376,7 +376,7 @@ jobs:
     if: >-
       always() && needs.parse.result == 'success' && (needs.claude.result == 'failure' || needs.claude.result == 'cancelled')
 
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 15
 
     permissions:
