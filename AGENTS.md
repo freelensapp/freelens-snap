@@ -21,12 +21,15 @@ releases — there is no compilation or source build step in this repo.
 - **`.github/workflows/`** — CI/CD pipelines:
   - `test.yaml` — Build and smoke-test the snap on PRs and pushes to
     non-main/non-automated branches.
-  - `publish.yaml` — Build and publish to the Snap Store on pushes to
-    `main` and weekly schedule.
+  - `publish.yaml` — Build and publish to the Snap Store on a weekly
+    schedule or a manual run (no push trigger: a merge to `main` does not
+    publish).
   - `publish-nightly-builds.yaml` — Build and publish nightly snap from
     `main` with the latest Freelens nightly build, on a daily schedule.
   - `claude.yaml` — On-demand Claude Code assistant triggered by
     `@claude` in PRs and issues.
+  - `claude-task.yaml` — Claude Code task started manually
+    (`workflow_dispatch`), optionally opening a PR with the changes.
   - `trunk-check.yaml` / `trunk-upgrade.yaml` — Linting and auto-upgrades
     via Trunk.
 
