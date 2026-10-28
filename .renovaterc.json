@@ -1,27 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":semanticCommitsDisabled"
+  "description": [
+    "ignoreDeps: ubuntu runners must stay on the oldest supported version, which also matches the core24 base of the snap."
   ],
-  "addLabels": [
-    "renovate"
-  ],
-  // ubuntu runners must stay on the oldest supported version, which also
-  // matches the core24 base of the snap
-  "ignoreDeps": [
-    "ubuntu"
-  ],
+  "extends": ["config:recommended", ":semanticCommitsDisabled"],
+  "addLabels": ["renovate"],
+  "ignoreDeps": ["ubuntu"],
   "customManagers": [
-    // renovate hints after comment
     {
+      "description": "Renovate hints after a comment: `# datasource=<datasource> depName=<depName>`.",
       "customType": "regex",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
         "/^\\.github/workflows/.*\\.ya?ml$/",
-        "/^\\.trunk/trunk.yaml/",
-        "/^\\.tool-versions$/",
-        "/^snapcraft.yaml$/"
+        "/^\\.trunk/trunk\\.yaml$/",
+        "/^snapcraft\\.yaml$/"
       ],
       "matchStrings": [
         "(\\s+|.*?@)(?<currentValue>\\S+)\\s*#\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\s*\\n"
