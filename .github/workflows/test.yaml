@@ -9,10 +9,10 @@ on:
     paths-ignore:
       - .editorconfig
       - .gitignore
-      - .markdownlint.yaml
       - .trunk/**
       - LICENSE
       - README.md
+      - biome.jsonc
   pull_request:
     branches:
       - main

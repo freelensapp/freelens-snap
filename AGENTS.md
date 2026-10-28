@@ -32,6 +32,18 @@ releases — there is no compilation or source build step in this repo.
     (`workflow_dispatch`), optionally opening a PR with the changes.
   - `trunk-check.yaml` / `trunk-upgrade.yaml` — Linting and auto-upgrades
     via Trunk.
+- **`.trunk/trunk.yaml`** — Trunk configuration, the linter aggregator:
+  - `biome` — formats JSON, Markdown and YAML, and lints Markdown and YAML
+    (config: `biome.jsonc`), the same as upstream `freelensapp/freelens`.
+  - `yamllint` — YAML (config: `.yamllint.yaml`), only for the rules Biome
+    does not have yet: `quoted-strings` and `octal-values`. Biome never adds
+    or removes quotes, so the two do not conflict. A YAML rule that Biome
+    gains goes to `biome.jsonc` (as `key-duplicates` of yamllint did, now
+    `noDuplicateMapKeys`), and yamllint goes once Biome covers the rest.
+  - `shellcheck` + `shfmt` — shell scripts (config: `.shellcheckrc`,
+    `.editorconfig`).
+  - `actionlint`, `trufflehog`, `git-diff-check` — workflows, secrets,
+    whitespace.
 
 ## Security
 
@@ -217,6 +229,7 @@ When reviewing code and proposing fixes:
    ```
 
    You can generate this from the terminal with:
+
    ```bash
    git diff -u -- path/to/file
    ```
@@ -248,9 +261,9 @@ When reviewing code and proposing fixes:
    - Use GitHub's `suggestion` block for small targeted fixes so the PR
      author can accept the change with a single click:
 
-     ````suggestion
+     ```suggestion
      <same unified-diff format as shown above>
-     ````
+     ```
 
    - For larger multi-file changes, use `diff -u` blocks in a regular
      comment instead, with the proposed commit subject shown first
@@ -408,7 +421,7 @@ Markdown docs.
 What the runner does provide is a full snap build environment and trunk:
 
 - `trunk` and its managed linters (`actionlint`, `shellcheck`, `shfmt`,
-  `yamllint`, `yamlfmt`, `markdownlint`) are on `PATH`.
+  `yamllint`, `biome`) are on `PATH`.
 - `snapd`, LXD (initialised) and `snapcraft` are installed, and
   `SNAPCRAFT_BUILD_ENVIRONMENT=lxd` is exported — the same environment
   `snapcore/action-build@v1` sets up for `test.yaml`, minus the build

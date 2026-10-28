@@ -222,8 +222,7 @@ jobs:
           echo "pr-number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number || (github.event.issue.pull_request && github.event.issue.number)
-            || '' }}
+          PR_NUMBER: ${{ github.event.pull_request.number || (github.event.issue.pull_request && github.event.issue.number) || '' }}
 
   claude:
     needs: parse
@@ -253,8 +252,7 @@ jobs:
         if: needs.parse.outputs.pr-number != ''
         uses: actions/checkout@v7
         with:
-          ref: ${{ needs.parse.outputs.is-fork != 'true' && github.event.pull_request.head.ref || format('refs/pull/{0}/head',
-            needs.parse.outputs.pr-number) }}
+          ref: ${{ needs.parse.outputs.is-fork != 'true' && github.event.pull_request.head.ref || format('refs/pull/{0}/head', needs.parse.outputs.pr-number) }}
           fetch-depth: 0
           persist-credentials: false
 
