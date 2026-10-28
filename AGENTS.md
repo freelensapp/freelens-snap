@@ -32,9 +32,18 @@ releases — there is no compilation or source build step in this repo.
     (`workflow_dispatch`), optionally opening a PR with the changes.
   - `trunk-check.yaml` / `trunk-upgrade.yaml` — Linting and auto-upgrades
     via Trunk.
+  - `biome-migrate.yaml` — On a Renovate pull request that changes
+    `.trunk/trunk.yaml` or `biome.jsonc`, runs `biome migrate` for the Biome
+    version pinned in `.trunk/trunk.yaml` and commits the migrated
+    `biome.jsonc` to the same branch.
 - **`.trunk/trunk.yaml`** — Trunk configuration, the linter aggregator:
   - `biome` — formats JSON, Markdown and YAML, and lints Markdown and YAML
     (config: `biome.jsonc`), the same as upstream `freelensapp/freelens`.
+    Its version is pinned with a trailing `!`, so `trunk upgrade` leaves it
+    alone and Renovate bumps it to the newest npm release instead; Renovate
+    cannot run `biome migrate`, which is why `biome-migrate.yaml` exists.
+    `.renovaterc.json` lists `github-actions[bot]` in `gitIgnoredAuthors`,
+    so that its commit does not stop Renovate from updating the branch.
   - `yamllint` — YAML (config: `.yamllint.yaml`), only for the rules Biome
     does not have yet: `quoted-strings` and `octal-values`. Biome never adds
     or removes quotes, so the two do not conflict. A YAML rule that Biome
