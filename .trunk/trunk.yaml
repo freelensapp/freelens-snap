@@ -93,14 +93,14 @@ lint:
           run_from: ${root_or_parent_with(biome.jsonc)}
       run_timeout: 1m
   enabled:
-    - actionlint@1.17.0
+    - actionlint@1.17.1
     # The trailing ! keeps trunk upgrade off Biome: Renovate bumps it
     # instead, and biome-migrate.yaml migrates biome.jsonc on its branch.
     - biome@2.6.5! # datasource=npm depName=@biomejs/biome
     - git-diff-check
     - shellcheck@0.11.0
     - shfmt@3.14.1
-    - trufflehog@3.99.8
+    - trufflehog@3.99.9
     - yamllint@1.38.0
   disabled:
     - checkov
